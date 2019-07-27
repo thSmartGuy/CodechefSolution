@@ -1,6 +1,7 @@
 #include <iostream>
 
 int arr[100011] ;
+/// BRUTE--FORCE
 long long ans ;
 
 void findMax(int n){
@@ -47,10 +48,28 @@ int main(){
         std::cin >> n ;
         ans = 0 ;
 
-        for(int i = 0 ; i < n ; i++) std::cin >> arr[i] ;
+        //for(int i = 0 ; i < n ; i++) std::cin >> arr[i] ;
+        //recur(0, n, 0) ;
+        //std::cout << ans << "\n" ;
 
-        recur(0, n, 0) ;
+    /// OPTIMIZED SOLUTION
 
-        std::cout << ans << "\n" ;
+        for(int i = 1 ; i <= n ; i++) std::cin >> arr[i] ;
+        long long dp[n + 1] ;
+
+        dp[0] = 0 ; // if no elements than max is 0
+        dp[1] = arr[1] ;// if only one element than that only is the answer
+
+        for(int i = 2 ; i <= n ; i++){
+            dp[i] = std::max(
+                dp[i - 1] + (long long)arr[i]*i, /// include this also as without this we will only comparing from last last case
+                ///             and leaving the comparison from last case
+                ///dp[i - 2] + arr[i - 1]*(i - 1) + arr[i]*i, ==((equivalent to) dp[i - 2] + arr[i]*i)=> // this  can be removed as
+                ///                        it is already gets covered in above case
+                dp[i - 2] + (long long)arr[i - 1]*(i) + (long long)arr[i]*(i - 1)
+            );
+        }
+
+        std::cout << dp[n] << "\n" ;
     }
 }
