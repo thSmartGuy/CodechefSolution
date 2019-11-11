@@ -1,90 +1,39 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <climits>
 
-std::vector <std::vector <int>> edges ; 
-
-std::vector <int>  discoveryTime, isArtPoint ;
-
-int time_ ;
-int dfs(int cur, int parent, bool *visited){
-    discoveryTime[cur] = ++time_ ;
-
-    int minCurTime = discoveryTime[cur] ;
-    
-    visited[cur] = 1 ;
-
-    int child = 0 ;
-    int neighbourMin ;
-    for(int v : edges[cur]){
-        if(!visited[v]){
-            child++ ;
-            neighbourMin = dfs(v, cur, visited) ;
-            minCurTime = std::min(neighbourMin, minCurTime) ;
-
-            if(neighbourMin >= discoveryTime[cur]){
-                isArtPoint[cur] = 1 ;
-            }
-        }
-        else if(parent != v){
-            minCurTime = std::min(minCurTime, discoveryTime[v]) ;
-        }
-    }
-
-    if(cur == 0){
-        if(child > 1){
-            isArtPoint[0] = 1 ;
-        }
-        else isArtPoint[0] = 0 ;
-    }
-    
-    std::cout << "low time for " <<  cur << " is : " << minCurTime << "\n" ;
-    return minCurTime ;
+void fast(){
+	std::ios_base::sync_with_stdio(0);
+	std::cin.tie(0); std::cout.tie(0) ;
 }
 
+int arr[100011] ;
+
 int main(){
-    int t = 1 ;
-    std::cin >> t ;
+	int t = 1 ;
+	std::cin >> t ;
 
-    long long n, m, k ;
-    while(t--){
-        time_ = 0 ;
-        std::cin >> n >> m >> k ;
+	//fast();
+	int n, m, s ;
+	while(t--){
+		std::cin >> n >> m >> s ;
 
-        edges = std::vector <std::vector<int>> (n) ;
+		for(int i = 0 ; i < n ; i++) {
+			std::cin >> arr[i] ;
+		}
 
-        int u, v ;
-        for(int i = 0 ; i < m ; i++){
-            std::cin >> u >> v ;
+		std::sort(arr, arr + n);
 
-            edges[u].push_back(v) ;
-            edges[v].push_back(u) ;
-        }
+		int days[n] = {} ;
 
-        isArtPoint.assign(n, 0) ;
-        discoveryTime.assign(n, 0) ;
+		for(int i = 0 ; i < n ; i++) {
+			days[i] = arr[i] / s ;
+		}
 
-        bool *visited = new bool[n] ;
-
-        for(int i = 0 ; i < n ; i++){
-            visited[i] = 0 ;
-        }
-
-        dfs(0, -1, visited) ;
-
-        for(int i= 0 ; i < n ; i++)
-            std::cout << discoveryTime[i] << " ";
-        std::cout << "\n" ;
-
-        delete [] visited ;
-
-        long long c = 0 ; 
-        for(int v: isArtPoint){
-            c += (v) ;
-        }
-
-        long long ans = ((long long)k*c) ;
-        std::cout << ans << "\n" ;
-    }
+		int topics = 0 ;
+		int daysComp = 0 ;
+		for(int i = 0 ; i < n ; i++) {
+			
+		}
+	}
 }
