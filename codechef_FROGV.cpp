@@ -1,61 +1,48 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <map>
 
 void fast(){
 	std::ios_base::sync_with_stdio(0);
 	std::cin.tie(0); std::cout.tie(0) ;
 }
 
-int arr[100011] ;
-std::vector <std::pair<int, int>> vv ; // val-idx
-
-bool comp(std::pair<int, int> p, std::pair<int, int> q){
-    if(p.first == q.first) return p.second < q.second ;
-    return p.first < q.first ;
-}
+int arr[111111] ;
+std::map <int, int> levelOf, parentOf ;
 
 int main(){
-	//fast();
-	int n, k, p, a, b ;
+	// fast();
+	int n, k, p ;
 	std::cin >> n >> k >> p ;
-	vv.resize(n) ;
 
+	// int dist ;
 	for(int i = 0 ; i < n ; i++){
 		std::cin >> arr[i] ;
-
-		vv[i].first = arr[i] ;
-		vv[i].second = i ;
+		levelOf[arr[i]] = i + 1 ;
 	}
 
-	std::sort(vv.begin(), vv.end(), comp) ;
+	std::sort(arr, arr + n) ;
 
-	int idx = vv[0].second ;
-	arr[idx] = idx ; // reachable from 0 or (take anything)
 
 	for(int i = 1 ; i < n ; i++){
-		idx = vv[i].second ;
-		if(vv[i].first - vv[i - 1].first <= k){ // reachable
-			arr[idx] = arr[vv[i - 1].second] ; // can be reached with same starting
+		if(arr[i] - arr[i - 1] <= k){
+			parentOf[levelOf[arr[i]]] = parentOf[levelOf[arr[i - 1]]] ;
 		}
 		else{
-			arr[idx] = idx ;
+			parentOf[levelOf[arr[i]]] = levelOf[arr[i]] ;
 		}
-
-//		for(int i = 0 ; i < n ; i++) std::cout << arr[i] << " " ; std::cout << "\n" ;
 	}
 
-	std::string ans ;
-	while(p--){
-		ans = "No" ;
+	int u, v ;
+	for(int i = 0 ; i < p ; i++){
+		std::cin >> u >> v ;
 
-		std::cin >> a >> b ;
-
-		a--, b-- ;
-		if(arr[a] == arr[b]){
-			ans = "Yes" ;
+		if(parentOf[u] == parentOf[v]){
+			std::cout << "Yes\n" ;
 		}
-
-		std::cout << ans << "\n" ;
+		else{
+			std::cout << "No\n" ;
+		}
 	}
 }

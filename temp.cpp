@@ -1,39 +1,59 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include<bits/stdc++.h>
+using namespace std;
+#define sz 100100
+#define MOD 1000000007
+#define ll long long
 
-void fast(){
-	std::ios_base::sync_with_stdio(0);
-	std::cin.tie(0); std::cout.tie(0) ;
+inline ll add(ll a, ll b)
+{
+    a = ((a % MOD) + MOD) % MOD;
+    b = ((b % MOD) + MOD) % MOD;
+    return (a + b) % MOD;
 }
 
-int arr[100011] ;
+inline ll mul(ll a, ll b)
+{
+    a = ((a % MOD) + MOD) % MOD;
+    b = ((b % MOD) + MOD) % MOD;
+    return (a * b) % MOD;
+}
 
-int main(){
-	int t = 1 ;
-	std::cin >> t ;
+ll dp1[sz];
+ll dp2[sz];
 
-	//fast();
-	int n, m, s ;
-	while(t--){
-		std::cin >> n >> m >> s ;
+int main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
 
-		for(int i = 0 ; i < n ; i++) {
-			std::cin >> arr[i] ;
-		}
 
-		std::sort(arr, arr + n);
+    ll t, n, m; scanf("%lld", &t);
 
-		int days[n] = {} ;
+    ll tmp1, tmp2;
 
-		for(int i = 0 ; i < n ; i++) {
-			days[i] = arr[i] / s ;
-		}
+    while (t--)
+    {
 
-		int topics = 0 ;
-		int daysComp = 0 ;
-		for(int i = 0 ; i < n ; i++) {
-			
-		}
-	}
+        scanf("%lld", &n); scanf("%lld", &m);
+
+        // dp2[i] i and i-1 are same
+        // dp1[i] i and i-1 not same
+
+        dp2[0] = 0;
+        dp1[0] = m;
+
+        for (ll i = 1; i < n; ++i)
+        {
+            tmp2 = dp2[i - 1];
+            tmp1 = dp1[i - 1];
+            dp2[i] = tmp1;
+            dp1[i] = add(mul((m - 1), tmp2), mul((m - 1), tmp1));
+        }
+
+        cout << add(dp2[n - 1], dp1[n - 1]) << "\n";
+
+    }
+
+
+    return 0;
 }

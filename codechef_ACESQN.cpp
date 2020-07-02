@@ -24,12 +24,14 @@ void sieve(){
 std::vector <int> count_ ;
 
 int main(){
+    freopen("input.txt", "r", stdin)
      fast() ;
 
     sieve() ;
     int t, n, tmp ;
 
     std::cin >> t ;
+
 
     while(t--){
         std::cin >> n ;
